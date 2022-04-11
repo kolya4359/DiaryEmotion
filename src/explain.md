@@ -47,4 +47,5 @@ const navigate = useNavigate();
 </button>;
 // HOME으로 가기 버튼을 클릭하면
 // localhost:3000/home 페이지도 이동한다.
+// navigate(-1); 은 뒤로가기 기능이다.
 ```
