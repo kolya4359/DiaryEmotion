@@ -36,8 +36,45 @@ export const DiaryStateContext = React.createContext();
 export const DisaryDispatchContext = React.createContext();
 // Dispatch 함수를 관리하는 Context
 
+const dummyData = [
+  {
+    id: 1,
+    emotion: 1,
+    content: "오늘의 일기 1번",
+    date: 1649667156786,
+  },
+  {
+    id: 2,
+    emotion: 2,
+    content: "오늘의 일기 2번",
+    date: 1649667156787,
+  },
+  {
+    id: 3,
+    emotion: 3,
+    content: "오늘의 일기 3번",
+    date: 1649667156788,
+  },
+  {
+    id: 4,
+    emotion: 4,
+    content: "오늘의 일기 4번",
+    date: 1649667156789,
+  },
+  {
+    id: 5,
+    emotion: 5,
+    content: "오늘의 일기 5번",
+    date: 1649667156790,
+  },
+];
+
 function App() {
-  const [data, dispatch] = useReducer(reducer, []);
+  const [data, dispatch] = useReducer(reducer, dummyData);
+
+  // console.log(new Date().getTime());
+  // data의 date를 밀리세컨즈로 만들 때 사용한다.
+  // 1649667156786 이런식으로 콘솔에 시간이 밀리세컨즈로 나타난다.
 
   const dataId = useRef(0);
   // CREATE
