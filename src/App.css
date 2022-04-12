@@ -100,3 +100,44 @@ header .head_btn_right {
 header button {
   font-family: "Nanum Pen Script";
 }
+
+/* DiaryList */
+
+.DiaryList .menu_wrapper {
+  margin-top: 20px;
+  margin-bottom: 30px;
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.DiaryList .menu_wrapper .right_col {
+  flex-grow: 1;
+  /*
+  flex-grow 값을 양수로 지정하면 flex 항목별로 주축 방향 크기가 남은 공간에서
+  flex-basis 값 이상으로 늘어난다.
+  세 항목에서 첫 항목의 값을 2로 지정하고 나머지 두 개의 항목을 1로 지정하면
+  각 항목에 지정된 flex-grow 값의 비율에 따라 남은 공간이 분배된다.
+  2:1:1 비율이므로 첫 항목에 100px, 두 번째와 세 번째 항목엔 50px씩 분배된다.
+  */
+}
+
+.DiaryList .menu_wrapper .right_col button {
+  width: 100%;
+}
+
+.DiaryList .ControlMenu {
+  margin-right: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #ececec;
+
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+
+  cursor: pointer;
+  font-family: "Nanum Pen Script";
+  font-size: 18px;
+}
