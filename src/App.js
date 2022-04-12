@@ -33,7 +33,7 @@ const reducer = (state, action) => {
 
 export const DiaryStateContext = React.createContext();
 // data를 관리하는 Context
-export const DisaryDispatchContext = React.createContext();
+export const DiaryDispatchContext = React.createContext();
 // Dispatch 함수를 관리하는 Context
 
 const dummyData = [
@@ -107,7 +107,7 @@ function App() {
   };
   return (
     <DiaryStateContext.Provider value={data}>
-      <DisaryDispatchContext.Provider
+      <DiaryDispatchContext.Provider
         value={{
           onCreate,
           onEdit,
@@ -124,7 +124,7 @@ function App() {
             </Routes>
           </div>
         </BrowserRouter>
-      </DisaryDispatchContext.Provider>
+      </DiaryDispatchContext.Provider>
     </DiaryStateContext.Provider>
   );
 }
