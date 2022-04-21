@@ -24,19 +24,19 @@ const Home = () => {
       const lastDay = new Date(
         curDate.getFullYear(),
         curDate.getMonth() + 1,
-        0
+        0,
+        23,
+        59,
+        59
       ).getTime();
       // 현재 년도, 다음 달, 0일
+      // 시, 분, 초까지 지정을 해줘야 한다.
 
       setData(
         diaryList.filter((it) => firstDay <= it.date && it.date <= lastDay)
       );
     }
   }, [diaryList, curDate]);
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
 
   const increaseMonth = () => {
     setCurDate(

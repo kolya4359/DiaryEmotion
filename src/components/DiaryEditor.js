@@ -19,7 +19,7 @@ const DiaryEditor = ({ isEdit, originData }) => {
   // 선택된 리스트의 감정이 어떤 감정인지 담겨져 있다.
   const [date, setDate] = useState(getStringDate(new Date()));
 
-  const { onCreate, onEdit } = useContext(DiaryDispatchContext);
+  const { onCreate, onEdit, onRemove } = useContext(DiaryDispatchContext);
 
   // 감정을 선택하면 EmotionItem 컴포넌트에 선택된 emotion_id 값을 넘기는 함수
   const handleClickEmote = (emotion) => {
@@ -51,6 +51,13 @@ const DiaryEditor = ({ isEdit, originData }) => {
     // replace 속성이 true 이면 뒤로가기를 사용해서 new 페이지로 이동이 안되도록 한다.
   };
 
+  const handleRemove = () => {
+    if (window.confirm("정말 삭제하시겠습니까?")) {
+      onRemove(originData.id);
+      navigate("/", { replace: true });
+    }
+  };
+
   useEffect(() => {
     if (isEdit) {
       setDate(getStringDate(new Date(parseInt(originData.date))));
@@ -65,6 +72,15 @@ const DiaryEditor = ({ isEdit, originData }) => {
         headText={isEdit ? "일기 수정하기" : "새 일기쓰기"}
         leftChild={
           <MyButton text={"< 뒤로가기"} onClick={() => navigate(-1)} />
+        }
+        rightChild={
+          isEdit && (
+            <MyButton
+              text={"삭제하기"}
+              type={"negative"}
+              onClick={handleRemove}
+            />
+          )
         }
       />
       <div>
