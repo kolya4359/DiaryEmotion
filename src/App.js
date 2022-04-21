@@ -1,4 +1,4 @@
-import React, { useReducer, useRef } from "react";
+import React, { useEffect, useReducer, useRef } from "react";
 
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -12,6 +12,9 @@ const reducer = (state, action) => {
   let newState = [];
   switch (action.type) {
     case "INIT": {
+      return action.data;
+    }
+    case "CREATE": {
       newState = [action.data, ...state];
       break;
     }
@@ -28,6 +31,9 @@ const reducer = (state, action) => {
     default:
       return state;
   }
+
+  localStorage.setItem("diary", JSON.stringify(newState));
+  // 배열을 저장할 때도 stringify로 직렬화를 시켜줘야 한다.
   return newState;
 };
 
@@ -36,41 +42,43 @@ export const DiaryStateContext = React.createContext();
 export const DiaryDispatchContext = React.createContext();
 // Dispatch 함수를 관리하는 Context
 
-const dummyData = [
-  {
-    id: 1,
-    emotion: 1,
-    content: "오늘의 일기 1번",
-    date: 1649667156786,
-  },
-  {
-    id: 2,
-    emotion: 2,
-    content: "오늘의 일기 2번",
-    date: 1649667156787,
-  },
-  {
-    id: 3,
-    emotion: 3,
-    content: "오늘의 일기 3번",
-    date: 1649667156788,
-  },
-  {
-    id: 4,
-    emotion: 4,
-    content: "오늘의 일기 4번",
-    date: 1649667156789,
-  },
-  {
-    id: 5,
-    emotion: 5,
-    content: "오늘의 일기 5번",
-    date: 1649667156790,
-  },
-];
-
 function App() {
-  const [data, dispatch] = useReducer(reducer, dummyData);
+  // localStorage에 저장하는 법
+  // useEffect(() => {
+  //   localStorage.setItem("item1", 10);
+  // setItem("key", value) 로 저장한다.
+  //   localStorage.setItem("item2", "20");
+  //   localStorage.setItem("item3", JSON.stringify({ value: 30 }));
+  //   // localStorage는 문자열만 저장되기 때문에 객체를 저장할 때는 JSON.stringify 를 사용해서
+  //   // 직렬화를 시켜줘야 한다.
+  // }, []);
+
+  //localStorage에서 값 불러오는 법
+  // useEffect(() => {
+  //   const item1 = localStorage.getItem("item1");
+  //   // getItem("key")으로 localStorage에서 value를 가져올 수 있다.
+  //   const item2 = localStorage.getItem("item2");
+  //   const item3 = JSON.parse(localStorage.getItem("item3"));
+  //   // localStorage에서 값을 가져오면 문자열로 나온다.
+  //   // 그래서 객체값은 JSON.parse 로 객체로 변환해서 불러와야 한다.
+  //   console.log({ item1, item2, item3 });
+  //   // 출력할 때 , 로 출력하면 붙어서 나와서 보기 불편한데
+  //   // 객체로 묶어 주면 나누어져 출력되어서 보기 편하다.
+  // }, []);
+
+  const [data, dispatch] = useReducer(reducer, []);
+
+  useEffect(() => {
+    const localData = localStorage.getItem("diary");
+    if (localData) {
+      const diaryList = JSON.parse(localData).sort(
+        (a, b) => parseInt(b.id) - parseInt(a.id)
+      );
+      dataId.current = parseInt(diaryList[0].id) + 1;
+
+      dispatch({ type: "INIT", data: diaryList });
+    }
+  }, []);
 
   // console.log(new Date().getTime());
   // data의 date를 밀리세컨즈로 만들 때 사용한다.
@@ -80,7 +88,7 @@ function App() {
   // CREATE
   const onCreate = (date, content, emotion) => {
     dispatch({
-      type: "CREATER",
+      type: "CREATE",
       data: {
         id: dataId.current,
         date: new Date(date).getTime(),
@@ -88,6 +96,7 @@ function App() {
         emotion,
       },
     });
+    dataId.current += 1;
   };
   // REMOVE
   const onRemove = (targetId) => {
