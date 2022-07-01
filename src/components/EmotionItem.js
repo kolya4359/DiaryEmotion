@@ -1,5 +1,7 @@
 // New 페이지에 감정리스트를 넣을 수 있도록 만든 컴포넌트
 
+import React from "react";
+
 const EmotionItem = ({
   emotion_id,
   emotion_img,
@@ -21,4 +23,4 @@ const EmotionItem = ({
   );
 };
 
-export default EmotionItem;
+export default React.memo(EmotionItem);

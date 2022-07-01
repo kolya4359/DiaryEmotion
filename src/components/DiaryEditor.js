@@ -1,4 +1,4 @@
-import { useState, useRef, useContext, useEffect } from "react";
+import { useState, useRef, useContext, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { DiaryDispatchContext } from "./../App.js";
 
@@ -22,9 +22,9 @@ const DiaryEditor = ({ isEdit, originData }) => {
   const { onCreate, onEdit, onRemove } = useContext(DiaryDispatchContext);
 
   // 감정을 선택하면 EmotionItem 컴포넌트에 선택된 emotion_id 값을 넘기는 함수
-  const handleClickEmote = (emotion) => {
+  const handleClickEmote = useCallback((emotion) => {
     setEmotion(emotion);
-  };
+  }, []);
 
   const navigate = useNavigate();
 
@@ -121,12 +121,12 @@ const DiaryEditor = ({ isEdit, originData }) => {
         </section>
         <section>
           <div className="control_box">
+            <MyButton text={"취소하기"} onClick={() => navigate(-1)} />
             <MyButton
               text={"작성완료"}
               type={"positive"}
               onClick={handleSubmit}
             />
-            <MyButton text={"취소하기"} onClick={() => navigate(-1)} />
           </div>
         </section>
       </div>

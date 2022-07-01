@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import MyButton from "./MyButton";
 import DiaryItem from "./DiaryItem";
@@ -14,7 +14,13 @@ const filterOptionList = [
   { value: "bad", name: "안 좋은 감정만" },
 ];
 
-const ControlMenu = ({ value, onChange, optionList }) => {
+// React.memo()는 함수를 인자로 받는 고차 컴포넌트이다.
+// 전달받은 props(value, onChange, optionList) 가 변하지 않으면 렌더링이 일어나지 않는다.
+const ControlMenu = React.memo(({ value, onChange, optionList }) => {
+  // onChange의 값으로 핸들러 함수를 만들어서 넣어주면 React.memo가 제대로 작동하지 않는다.
+  // 컴포넌트가 리렌더링될 때마다 핸들러 함수를 새로운 prop으로 간주하기 때문이다.
+  // 하지만 useState를 사용해서 setState 를 값으로 넣어주면 React.memo가 정상적으로 작동한다.
+  // 그 이유는 useState에서 기본적으로 useCallback처리가 되어서 나오기 때문이다.
   return (
     <select
       className="ControlMenu"
@@ -28,7 +34,7 @@ const ControlMenu = ({ value, onChange, optionList }) => {
       ))}
     </select>
   );
-};
+});
 
 const DiaryList = ({ diaryList }) => {
   const navigate = useNavigate();
